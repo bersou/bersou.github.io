@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Paradas Mensais</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .chart-container {
+            position: relative;
+            margin: 20px 0;
+            height: 40vh;
+            width: 80vw;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <h1>Dashboard de Paradas Mensais</h1>
+
+    <h2>Gráfico de Impacto por Parada (MDF 1)</h2>
+    <div class="chart-container">
+        <canvas id="impactoMDF1"></canvas>
+    </div>
+
+    <h2>Gráfico de Impacto por Parada (MDF 2)</h2>
+    <div class="chart-container">
+        <canvas id="impactoMDF2"></canvas>
+    </div>
+
+    <h2>Gráfico de Paradas Repetidas</h2>
+    <div class="chart-container">
+        <canvas id="paradasRepetidas"></canvas>
+    </div>
+
+    <h2>Paradas Mensais MDF 1</h2>
+    <table>
+        <tr>
+            <th>TEMPO</th>
+            <th>DESCRIÇÃO DOS IMPACTOS</th>
+            <th>IMPACTO</th>
+        </tr>
+        <tr>
+            <td>15:48:00</td>
+            <td>MANUTENÇAÕ NO VENTILADOR DA FIBRA REJEITADA</td>
+            <td>495 M³</td>
+        </tr>
+        <tr>
+            <td>08:30:00</td>
+            <td>QUEDA DE ENERGIA</td>
+            <td>265 M³</td>
+        </tr>
+        <tr>
+            <td>07:00:00</td>
+            <td>ROSCA DE EXTRAÇÃO TRANCADA NO DIGESTOR / VALVULA DE SAIDA SEM MOVIMENTO</td>
+            <td>224 M³</td>
+        </tr>
+    </table>
+
+    <h2>Paradas Mensais MDF 2</h2>
+    <table>
+        <tr>
+            <th>TEMPO</th>
+            <th>DESCRIÇÃO DOS IMPACTOS</th>
+            <th>IMPACTO</th>
+        </tr>
+        <tr>
+            <td>31:14:00</td>
+            <td>MANUTENÇAÕ DA CINTA DA PRENSA</td>
+            <td>880 M³</td>
+        </tr>
+        <tr>
+            <td>19:36:00</td>
+            <td>MANUTENÇÃO NO VENTILADOR DO ÓLEO TERMICO DA USINA</td>
+            <td>198 M³</td>
+        </tr>
+        <tr>
+            <td>06:59:00</td>
+            <td>FALHA DE TRANSDUTOR DE DISTANCIA E ALGORITMO NA PRENSA</td>
+            <td>190 M³</td>
+        </tr>
+    </table>
+
+    <h2>Paradas Repetidas MDF 1</h2>
+    <table>
+        <tr>
+            <th>DESCRIÇÃO</th>
+            <th>DURAÇÃO</th>
+        </tr>
+        <tr>
+            <td>DIVERT VALVULE NÃO VIRA PARA SECADOR AO ARRANCAR LINHA</td>
+            <td>56 MINUTOS</td>
+        </tr>
+        <tr>
+            <td>DESALINHAMENTO TC 45 E SENSOR DE ROTAÇÃO</td>
+            <td>4:15 HORAS</td>
+        </tr>
+        <tr>
+            <td>PRESSÃO BAIXA NA USINA QUEDA DA BORRACHA DO CHUT DA MOEGA EMBUCHANDO TC 27</td>
+            <td>2:32 HORAS</td>
+        </tr>
+    </table>
+
+    <h2>Paradas Repetidas MDF 2</h2>
+    <table>
+        <tr>
+            <th>DESCRIÇÃO</th>
+            <th>DURAÇÃO</th>
+        </tr>
+        <tr>
+            <td>PRESSÃO E TREMPERATURA BAIXA NA USINA DEVIDO AO CARACOL DAS ROSCAS DA MOEGA COM DESGASTE</td>
+            <td>10:00 HORAS</td>
+        </tr>
+        <tr>
+            <td>TRANSDUTOR DE DISTANCIA DA PRENSA</td>
+            <td>7:00 HORAS</td>
+        </tr>
+        <tr>
+            <td>PRESSÃO BAIXA NAS BOM BAS DO ÓLEO HIDRAULICO DA PRENSA</td>
+            <td>1:02 HORAS</td>
+        </tr>
+    </table>
+
+    <script>
+        const ctx1 = document.getElementById('impactoMDF1').getContext('2d');
+        const impactoMDF1 = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['Ventilador da Fibra', 'Queda de Energia', 'Rosca de Extração'],
+                datasets: [{
+                    label: 'Impacto (M³)',
+                    data: [495, 265, 224],
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        const ctx2 = document.getElementById('impactoMDF2').getContext('2d');
+        const impactoMDF2 = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['Cinta da Prensa', 'Ventilador do Óleo', 'Transdutor de Distância'],
+                datasets: [{
+                    label: 'Impacto (M³)',
+                    data: [880, 198, 190],
+                    backgroundColor: 'rgba(153, 102, 255, 0.6)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        const ctx3 = document.getElementById('paradasRepetidas').getContext('2d');
+        const paradasRepetidas = new Chart(ctx3, {
+            type: 'pie',
+            data: {
+                labels: ['Divert Valvule', 'Desalinhamento TC 45', 'Pressão Baixa na Usina', 'Pressão e Temperatura Baixa', 'Transdutor de Distância', 'Pressão Baixa nas Bombas'],
+                datasets: [{
+                    label: 'Tempo de Parada (Horas)',
+                    data: [0.93, 4.25, 2.53, 10, 7, 1.03], // Convertendo para horas
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(153, 102, 255, 0.6)',
+                        'rgba(255, 159, 64, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            }
+        });
+    </script>
+
+</body>
+</html>
